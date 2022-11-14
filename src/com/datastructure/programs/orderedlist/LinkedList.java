@@ -25,7 +25,7 @@ public class LinkedList<T> {
     static int position;
 
     //Adding to linked list.
-    public void addToLinkedList(T data)
+    public <T> void addToLinkedList(T data)
     {
         Node newNode = new Node(data);
         if (head == null)
@@ -41,7 +41,7 @@ public class LinkedList<T> {
     }
 
     //Adding node after a particular node
-    public void addAfterParticularNode(T value)
+    public <T> void addAfterParticularNode(T value)
     {
         Node current = head;
         while (current != null)
@@ -60,6 +60,35 @@ public class LinkedList<T> {
         current.next = newNode;
         newNode.next = temp;
 
+    }
+
+    //Sorting the linked list
+    public <T> void sortTheLinkedList()
+    {
+        Node current = head, index = null;
+        T temp;
+        while (current != null)
+        {
+            if(head == null)
+            {
+                return;
+            }
+            else
+            {
+                index = current.next;
+                while (index != null)
+                {
+                    if ((Integer)current.data > (Integer) index.data)
+                    {
+                        temp = (T) current.data;
+                        current.data = index.data;
+                        index.data = temp;
+                    }
+                    index = index.next;
+                }
+                current = current.next;
+            }
+        }
     }
 
     //Search the LinkedList to find a particular node
@@ -191,39 +220,35 @@ public class LinkedList<T> {
 
         //Creating one unordered array of integer
         Integer[] values = { 10, 14, 28, 11, 7, 16, 30, 50, 25, 18};
+        System.out.println("Given array which is going to add to the linked list as it is : \n");
         //Adding to list by means of sorting
         for (int i = 0; i < values.length; i++)
         {
-            for (int j = i + 1; j < values.length; j++)
-            {
-                Integer tmp = 0;
-                if (values[i] > values[j])
-                {
-                    tmp = values[i];
-                    values[i] = values[j];
-                    values[j] = tmp;
-                }
-            }
             list.addToLinkedList(values[i]);
+            System.out.print(values[i]+ "  ");
         }
+        System.out.println();
+
+        //let's sort the linked list
+        list.sortTheLinkedList();
 
         //Printing the list
         list.printLinkedList();
 
         //Searching for int value which is present
-        System.out.println();
-        System.out.println("Enter the no you want to search");
-        Scanner scan = new Scanner(System.in);
-        Integer search1 = scan.nextInt(); //Give Singh as input
-        list.checkNode(search1);
-        list.printLinkedList();
+         //Give any present int as input
+        list.search();
 
         //Searching for int value which is not present
+        list.search();
+    }
+    public void search()
+    {
+        Scanner scan = new Scanner(System.in);
         System.out.println();
         System.out.println("Enter the no you want to search");
-        Integer search2 = scan.nextInt(); //Give Ranjan as input
-        scan.close();
-        list.checkNode(search2);
-        list.printLinkedList();
+        Integer search = scan.nextInt();
+        checkNode((T) search);
+        printLinkedList();
     }
 }
